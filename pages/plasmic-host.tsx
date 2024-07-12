@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { PlasmicCanvasHost, registerComponent } from '@plasmicapp/react-web/lib/host';
+import { PlasmicCanvasHost, registerGlobalContext } from '@plasmicapp/react-web/lib/host';
+import {AppContextProvider} from "@/src/AppContextProvider";
+
+export default function PlasmicHost() {
+  return <PlasmicCanvasHost />;
+}
 
 // You can register any code components that you want to use here; see
 // https://docs.plasmic.app/learn/code-components-ref/
@@ -10,6 +15,16 @@ import { PlasmicCanvasHost, registerComponent } from '@plasmicapp/react-web/lib/
 
 // registerComponent(...)
 
-export default function PlasmicHost() {
-  return <PlasmicCanvasHost />;
-}
+registerGlobalContext(AppContextProvider, {
+  name: "AppContextProvider",
+  props: {
+    directusUrl: "string",
+    initialCurrentUser: "object",
+  },
+  providesData: true,
+  globalActions: {
+    login: { parameters: [{ name: "credential", type: "string" }] },
+    logout: { parameters: [] },
+  },
+  importPath: "./src/AppContextProvider",
+});
