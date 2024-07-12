@@ -61,8 +61,11 @@ import {
 
 import Header from "../../Header"; // plasmic-import: IBzB1z8_37wm/component
 import { DataProvider } from "@plasmicpkgs/plasmic-basic-components";
-import { AntdTextArea } from "@plasmicpkgs/antd5/skinny/registerInput";
-import { inputHelpers as AntdTextArea_Helpers } from "@plasmicpkgs/antd5/skinny/registerInput";
+import { FormWrapper } from "@plasmicpkgs/antd5/skinny/Form";
+import { formHelpers as FormWrapper_Helpers } from "@plasmicpkgs/antd5/skinny/Form";
+import { FormItemWrapper } from "@plasmicpkgs/antd5/skinny/FormItem";
+import { AntdInput } from "@plasmicpkgs/antd5/skinny/registerInput";
+import { inputHelpers as AntdInput_Helpers } from "@plasmicpkgs/antd5/skinny/registerInput";
 import { AntdButton } from "@plasmicpkgs/antd5/skinny/registerButton";
 
 import "@plasmicapp/react-web/lib/plasmic.css";
@@ -88,9 +91,10 @@ export type PlasmicUserDetail__OverridesType = {
   dataProvider?: Flex__<typeof DataProvider>;
   img?: Flex__<typeof PlasmicImg__>;
   h1?: Flex__<"h1">;
-  h4?: Flex__<"h4">;
-  notesInput?: Flex__<typeof AntdTextArea>;
-  updateButton?: Flex__<typeof AntdButton>;
+  form?: Flex__<typeof FormWrapper>;
+  formField?: Flex__<typeof FormItemWrapper>;
+  input?: Flex__<typeof AntdInput>;
+  button?: Flex__<typeof AntdButton>;
 };
 
 export interface DefaultUserDetailProps {}
@@ -124,28 +128,35 @@ function PlasmicUserDetail__RenderFunc(props: {
   const refsRef = React.useRef({});
   const $refs = refsRef.current;
 
+  const $globalActions = useGlobalActions?.();
+
   const stateSpecs: Parameters<typeof useDollarState>[0] = React.useMemo(
     () => [
       {
-        path: "notesInput.value",
+        path: "form.value",
+        type: "private",
+        variableType: "object",
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
+
+        refName: "form",
+        onMutate: generateOnMutateForSpec("value", FormWrapper_Helpers)
+      },
+      {
+        path: "form.isSubmitting",
+        type: "private",
+        variableType: "boolean",
+        initFunc: ({ $props, $state, $queries, $ctx }) => false,
+
+        refName: "form",
+        onMutate: generateOnMutateForSpec("isSubmitting", FormWrapper_Helpers)
+      },
+      {
+        path: "input.value",
         type: "private",
         variableType: "text",
-        initFunc: ({ $props, $state, $queries, $ctx }) =>
-          (() => {
-            try {
-              return $ctx.user.notes;
-            } catch (e) {
-              if (
-                e instanceof TypeError ||
-                e?.plasmicType === "PlasmicUndefinedDataError"
-              ) {
-                return undefined;
-              }
-              throw e;
-            }
-          })(),
+        initFunc: ({ $props, $state, $queries, $ctx }) => undefined,
 
-        onMutate: generateOnMutateForSpec("value", AntdTextArea_Helpers)
+        onMutate: generateOnMutateForSpec("value", AntdInput_Helpers)
       }
     ],
     [$props, $ctx, $refs]
@@ -193,168 +204,256 @@ function PlasmicUserDetail__RenderFunc(props: {
             data-plasmic-name={"dataProvider"}
             data-plasmic-override={overrides.dataProvider}
             className={classNames("__wab_instance", sty.dataProvider)}
-            data={(() => {
-              try {
-                return $ctx.app.users.find(u => u.id == $ctx.params.id);
-              } catch (e) {
-                if (
-                  e instanceof TypeError ||
-                  e?.plasmicType === "PlasmicUndefinedDataError"
-                ) {
-                  return [
-                    {
-                      name: "Fill Murray",
-                      birthYear: 1950,
-                      profilePicture: ["https://www.fillmurray.com/200/300"]
-                    },
-                    {
-                      name: "Place Cage",
-                      birthYear: 1950,
-                      profilePicture: ["https://www.placecage.com/200/300"]
-                    }
-                  ];
-                }
-                throw e;
-              }
-            })()}
+            data={$ctx.app.users?.find(u => u.id == $ctx.params.id)}
             name={"user"}
           >
             <DataCtxReader__>
-              {$ctx => (
-                <Stack__
-                  as={"div"}
-                  hasGap={true}
-                  className={classNames(projectcss.all, sty.freeBox__vwKFs)}
-                >
-                  <section
-                    className={classNames(projectcss.all, sty.section__e559I)}
+              {$ctx =>
+                (() => {
+                  try {
+                    return $ctx.user !== undefined;
+                  } catch (e) {
+                    if (
+                      e instanceof TypeError ||
+                      e?.plasmicType === "PlasmicUndefinedDataError"
+                    ) {
+                      return true;
+                    }
+                    throw e;
+                  }
+                })() ? (
+                  <Stack__
+                    as={"div"}
+                    hasGap={true}
+                    className={classNames(projectcss.all, sty.freeBox__vwKFs)}
                   >
-                    <Stack__
-                      as={"div"}
-                      hasGap={true}
-                      className={classNames(projectcss.all, sty.freeBox__dyDQz)}
+                    <section
+                      className={classNames(projectcss.all, sty.section__e559I)}
                     >
-                      <PlasmicImg__
-                        data-plasmic-name={"img"}
-                        data-plasmic-override={overrides.img}
-                        alt={""}
-                        className={classNames(sty.img)}
-                        displayHeight={"auto"}
-                        displayMaxHeight={"none"}
-                        displayMaxWidth={"100%"}
-                        displayMinHeight={"0"}
-                        displayMinWidth={"0"}
-                        displayWidth={"160px"}
-                        loading={"lazy"}
-                        src={(() => {
-                          try {
-                            return $ctx.user.photo_url;
-                          } catch (e) {
-                            if (
-                              e instanceof TypeError ||
-                              e?.plasmicType === "PlasmicUndefinedDataError"
-                            ) {
-                              return undefined;
-                            }
-                            throw e;
-                          }
-                        })()}
-                      />
-
-                      <div
+                      <Stack__
+                        as={"div"}
+                        hasGap={true}
                         className={classNames(
                           projectcss.all,
-                          sty.freeBox__y35I
+                          sty.freeBox__dyDQz
                         )}
                       >
-                        <h1
-                          data-plasmic-name={"h1"}
-                          data-plasmic-override={overrides.h1}
-                          className={classNames(
-                            projectcss.all,
-                            projectcss.h1,
-                            projectcss.__wab_text,
-                            sty.h1
-                          )}
-                        >
-                          <React.Fragment>
-                            {(() => {
-                              try {
-                                return $ctx.user.name;
-                              } catch (e) {
-                                if (
-                                  e instanceof TypeError ||
-                                  e?.plasmicType === "PlasmicUndefinedDataError"
-                                ) {
-                                  return "";
-                                }
-                                throw e;
+                        <PlasmicImg__
+                          data-plasmic-name={"img"}
+                          data-plasmic-override={overrides.img}
+                          alt={""}
+                          className={classNames(sty.img)}
+                          displayHeight={"auto"}
+                          displayMaxHeight={"none"}
+                          displayMaxWidth={"100%"}
+                          displayMinHeight={"0"}
+                          displayMinWidth={"0"}
+                          displayWidth={"160px"}
+                          loading={"lazy"}
+                          src={(() => {
+                            try {
+                              return $ctx.user.photo_url;
+                            } catch (e) {
+                              if (
+                                e instanceof TypeError ||
+                                e?.plasmicType === "PlasmicUndefinedDataError"
+                              ) {
+                                return undefined;
                               }
-                            })()}
-                          </React.Fragment>
-                        </h1>
+                              throw e;
+                            }
+                          })()}
+                        />
+
                         <div
                           className={classNames(
                             projectcss.all,
-                            projectcss.__wab_text,
-                            sty.text__hOcfo
+                            sty.freeBox__y35I
                           )}
                         >
-                          <React.Fragment>
-                            {"Last modified: " + $ctx.user.date_created}
-                          </React.Fragment>
+                          <h1
+                            data-plasmic-name={"h1"}
+                            data-plasmic-override={overrides.h1}
+                            className={classNames(
+                              projectcss.all,
+                              projectcss.h1,
+                              projectcss.__wab_text,
+                              sty.h1
+                            )}
+                          >
+                            <React.Fragment>
+                              {(() => {
+                                try {
+                                  return $ctx.user.name;
+                                } catch (e) {
+                                  if (
+                                    e instanceof TypeError ||
+                                    e?.plasmicType ===
+                                      "PlasmicUndefinedDataError"
+                                  ) {
+                                    return "";
+                                  }
+                                  throw e;
+                                }
+                              })()}
+                            </React.Fragment>
+                          </h1>
+                          <div
+                            className={classNames(
+                              projectcss.all,
+                              projectcss.__wab_text,
+                              sty.text__hOcfo
+                            )}
+                          >
+                            <React.Fragment>
+                              {"Last modified: " + $ctx.user.date_created}
+                            </React.Fragment>
+                          </div>
                         </div>
-                      </div>
-                    </Stack__>
-                  </section>
-                  <section
-                    className={classNames(projectcss.all, sty.section__xkY6N)}
-                  >
-                    <h4
-                      data-plasmic-name={"h4"}
-                      data-plasmic-override={overrides.h4}
-                      className={classNames(
-                        projectcss.all,
-                        projectcss.h4,
-                        projectcss.__wab_text,
-                        sty.h4
-                      )}
+                      </Stack__>
+                    </section>
+                    <section
+                      className={classNames(projectcss.all, sty.section__xkY6N)}
                     >
-                      {"Notes"}
-                    </h4>
-                    {(() => {
-                      const child$Props = {
-                        className: classNames("__wab_instance", sty.notesInput),
-                        onChange: generateStateOnChangePropForCodeComponents(
+                      {(() => {
+                        const child$Props = {
+                          className: classNames("__wab_instance", sty.form),
+                          extendedOnValuesChange:
+                            generateStateOnChangePropForCodeComponents(
+                              $state,
+                              "value",
+                              ["form", "value"],
+                              FormWrapper_Helpers
+                            ),
+                          formItems: [
+                            { label: "Name", name: "name", inputType: "Text" },
+                            {
+                              label: "Message",
+                              name: "message",
+                              inputType: "Text Area"
+                            }
+                          ],
+                          labelCol: { span: 8, horizontalOnly: true },
+                          layout: "vertical",
+                          mode: "advanced",
+                          onFinish: async values => {
+                            const $steps = {};
+
+                            $steps["runCode"] = true
+                              ? (() => {
+                                  const actionArgs = {
+                                    customFunction: async () => {
+                                      return console.log($state.form.value);
+                                    }
+                                  };
+                                  return (({ customFunction }) => {
+                                    return customFunction();
+                                  })?.apply(null, [actionArgs]);
+                                })()
+                              : undefined;
+                            if (
+                              $steps["runCode"] != null &&
+                              typeof $steps["runCode"] === "object" &&
+                              typeof $steps["runCode"].then === "function"
+                            ) {
+                              $steps["runCode"] = await $steps["runCode"];
+                            }
+
+                            $steps["invokeGlobalAction"] = true
+                              ? (() => {
+                                  const actionArgs = {
+                                    args: [
+                                      (() => {
+                                        try {
+                                          return $ctx.params.id;
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return undefined;
+                                          }
+                                          throw e;
+                                        }
+                                      })(),
+                                      (() => {
+                                        try {
+                                          return $state.form.value;
+                                        } catch (e) {
+                                          if (
+                                            e instanceof TypeError ||
+                                            e?.plasmicType ===
+                                              "PlasmicUndefinedDataError"
+                                          ) {
+                                            return undefined;
+                                          }
+                                          throw e;
+                                        }
+                                      })()
+                                    ]
+                                  };
+                                  return $globalActions[
+                                    "AppContextProvider.updateUser"
+                                  ]?.apply(null, [...actionArgs.args]);
+                                })()
+                              : undefined;
+                            if (
+                              $steps["invokeGlobalAction"] != null &&
+                              typeof $steps["invokeGlobalAction"] ===
+                                "object" &&
+                              typeof $steps["invokeGlobalAction"].then ===
+                                "function"
+                            ) {
+                              $steps["invokeGlobalAction"] = await $steps[
+                                "invokeGlobalAction"
+                              ];
+                            }
+                          },
+                          onIsSubmittingChange:
+                            generateStateOnChangePropForCodeComponents(
+                              $state,
+                              "isSubmitting",
+                              ["form", "isSubmitting"],
+                              FormWrapper_Helpers
+                            ),
+                          ref: ref => {
+                            $refs["form"] = ref;
+                          },
+                          submitSlot: null,
+                          wrapperCol: { span: 16, horizontalOnly: true }
+                        };
+                        initializeCodeComponentStates(
                           $state,
-                          "value",
-                          ["notesInput", "value"],
-                          AntdTextArea_Helpers
-                        ),
-                        value: generateStateValueProp($state, [
-                          "notesInput",
-                          "value"
-                        ])
-                      };
-                      initializeCodeComponentStates(
-                        $state,
-                        [
-                          {
-                            name: "value",
-                            plasmicStateName: "notesInput.value"
-                          }
-                        ],
-                        [],
-                        AntdTextArea_Helpers ?? {},
-                        child$Props
-                      );
-                      initializePlasmicStates(
-                        $state,
-                        [
-                          {
-                            name: "notesInput.value",
-                            initFunc: ({ $props, $state, $queries }) =>
-                              (() => {
+                          [
+                            {
+                              name: "value",
+                              plasmicStateName: "form.value"
+                            },
+                            {
+                              name: "isSubmitting",
+                              plasmicStateName: "form.isSubmitting"
+                            }
+                          ],
+                          [],
+                          FormWrapper_Helpers ?? {},
+                          child$Props
+                        );
+
+                        return (
+                          <FormWrapper
+                            data-plasmic-name={"form"}
+                            data-plasmic-override={overrides.form}
+                            {...child$Props}
+                          >
+                            <FormItemWrapper
+                              data-plasmic-name={"formField"}
+                              data-plasmic-override={overrides.formField}
+                              className={classNames(
+                                "__wab_instance",
+                                sty.formField
+                              )}
+                              initialValue={(() => {
                                 try {
                                   return $ctx.user.notes;
                                 } catch (e) {
@@ -367,37 +466,77 @@ function PlasmicUserDetail__RenderFunc(props: {
                                   }
                                   throw e;
                                 }
-                              })()
-                          }
-                        ],
-                        []
-                      );
-                      return (
-                        <AntdTextArea
-                          data-plasmic-name={"notesInput"}
-                          data-plasmic-override={overrides.notesInput}
-                          {...child$Props}
-                        />
-                      );
-                    })()}
-                    <AntdButton
-                      data-plasmic-name={"updateButton"}
-                      data-plasmic-override={overrides.updateButton}
-                      className={classNames("__wab_instance", sty.updateButton)}
-                    >
-                      <div
-                        className={classNames(
-                          projectcss.all,
-                          projectcss.__wab_text,
-                          sty.text__fDsP4
-                        )}
-                      >
-                        {"Update"}
-                      </div>
-                    </AntdButton>
-                  </section>
-                </Stack__>
-              )}
+                              })()}
+                              label={"Notes"}
+                              name={"notes"}
+                            >
+                              {(() => {
+                                const child$Props = {
+                                  className: classNames(
+                                    "__wab_instance",
+                                    sty.input
+                                  ),
+                                  onChange:
+                                    generateStateOnChangePropForCodeComponents(
+                                      $state,
+                                      "value",
+                                      ["input", "value"],
+                                      AntdInput_Helpers
+                                    ),
+                                  value: generateStateValueProp($state, [
+                                    "input",
+                                    "value"
+                                  ])
+                                };
+                                initializeCodeComponentStates(
+                                  $state,
+                                  [
+                                    {
+                                      name: "value",
+                                      plasmicStateName: "input.value"
+                                    }
+                                  ],
+                                  [],
+                                  AntdInput_Helpers ?? {},
+                                  child$Props
+                                );
+
+                                return (
+                                  <AntdInput
+                                    data-plasmic-name={"input"}
+                                    data-plasmic-override={overrides.input}
+                                    {...child$Props}
+                                  />
+                                );
+                              })()}
+                            </FormItemWrapper>
+                            <AntdButton
+                              data-plasmic-name={"button"}
+                              data-plasmic-override={overrides.button}
+                              className={classNames(
+                                "__wab_instance",
+                                sty.button
+                              )}
+                              submitsForm={true}
+                              type={"primary"}
+                            >
+                              <div
+                                className={classNames(
+                                  projectcss.all,
+                                  projectcss.__wab_text,
+                                  sty.text__i6B5
+                                )}
+                              >
+                                {"Submit"}
+                              </div>
+                            </AntdButton>
+                          </FormWrapper>
+                        );
+                      })()}
+                    </section>
+                  </Stack__>
+                ) : null
+              }
             </DataCtxReader__>
           </DataProvider>
         </div>
@@ -413,24 +552,27 @@ const PlasmicDescendants = {
     "dataProvider",
     "img",
     "h1",
-    "h4",
-    "notesInput",
-    "updateButton"
+    "form",
+    "formField",
+    "input",
+    "button"
   ],
   header: ["header"],
   dataProvider: [
     "dataProvider",
     "img",
     "h1",
-    "h4",
-    "notesInput",
-    "updateButton"
+    "form",
+    "formField",
+    "input",
+    "button"
   ],
   img: ["img"],
   h1: ["h1"],
-  h4: ["h4"],
-  notesInput: ["notesInput"],
-  updateButton: ["updateButton"]
+  form: ["form", "formField", "input", "button"],
+  formField: ["formField", "input"],
+  input: ["input"],
+  button: ["button"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -441,9 +583,10 @@ type NodeDefaultElementType = {
   dataProvider: typeof DataProvider;
   img: typeof PlasmicImg__;
   h1: "h1";
-  h4: "h4";
-  notesInput: typeof AntdTextArea;
-  updateButton: typeof AntdButton;
+  form: typeof FormWrapper;
+  formField: typeof FormItemWrapper;
+  input: typeof AntdInput;
+  button: typeof AntdButton;
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -510,9 +653,10 @@ export const PlasmicUserDetail = Object.assign(
     dataProvider: makeNodeComponent("dataProvider"),
     img: makeNodeComponent("img"),
     h1: makeNodeComponent("h1"),
-    h4: makeNodeComponent("h4"),
-    notesInput: makeNodeComponent("notesInput"),
-    updateButton: makeNodeComponent("updateButton"),
+    form: makeNodeComponent("form"),
+    formField: makeNodeComponent("formField"),
+    input: makeNodeComponent("input"),
+    button: makeNodeComponent("button"),
 
     // Metadata about props expected for PlasmicUserDetail
     internalVariantProps: PlasmicUserDetail__VariantProps,

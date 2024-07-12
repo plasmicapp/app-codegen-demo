@@ -151,24 +151,30 @@
 .section__xkY6N > * {
   grid-column: 4;
 }
-.h4 {
+.form:global(.__wab_instance) {
+  display: flex;
+  flex-direction: column;
   position: relative;
+  justify-content: flex-start;
+  align-items: center;
+  object-fit: cover;
   width: 100%;
-  height: auto;
-  max-width: 100%;
   min-width: 0;
 }
-.notesInput:global(.__wab_instance) {
+.formField:global(.__wab_instance) {
+  width: 100%;
+  margin-bottom: 24px;
+  min-width: 0;
+}
+.input:global(.__wab_instance) {
   max-width: 100%;
   object-fit: cover;
-  position: relative;
 }
-.updateButton:global(.__wab_instance) {
+.button:global(.__wab_instance) {
   max-width: 100%;
   object-fit: cover;
-  position: relative;
 }
-.text__fDsP4 {
+.text__i6B5 {
   position: relative;
   width: 100%;
   height: auto;

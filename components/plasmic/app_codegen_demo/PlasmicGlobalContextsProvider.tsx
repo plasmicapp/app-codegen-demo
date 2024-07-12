@@ -7,7 +7,7 @@
 import * as React from "react";
 import { hasVariant, ensureGlobalVariants } from "@plasmicapp/react-web";
 import { AntdConfigProvider } from "@plasmicpkgs/antd5/skinny/registerConfigProvider";
-import { AppContextProvider } from "../../../src/AppContextProvider"; // plasmic-import: jYQLHRJZHTz5/codeComponent
+import { AppContextProvider } from "../../../src/AppContextProvider"; // plasmic-import: beOzZiBiHQs-/codeComponent
 
 export interface GlobalContextsProviderProps {
   children?: React.ReactElement;
@@ -129,18 +129,7 @@ export default function GlobalContextsProvider(
           appContextProviderProps &&
           "initialCurrentUser" in appContextProviderProps
             ? appContextProviderProps.initialCurrentUser!
-            : {
-                id: 1,
-                status: "published",
-                sort: null,
-                user_created: "ded22d65-dcb5-4562-9728-58c05a201754",
-                date_created: "2024-07-12T00:30:10.107Z",
-                user_updated: null,
-                date_updated: null,
-                name: "Jason",
-                photo_url: "https://avatars.githubusercontent.com/u/797348?v=4",
-                notes: null
-              }
+            : undefined
         }
       >
         {children}

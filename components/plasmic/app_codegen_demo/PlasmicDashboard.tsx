@@ -61,6 +61,7 @@ import {
 
 import Header from "../../Header"; // plasmic-import: IBzB1z8_37wm/component
 import UsersModule from "../../UsersModule"; // plasmic-import: qqFD2GcyeBVD/component
+import GraphModule from "../../GraphModule"; // plasmic-import: SFRojVZndsn7/component
 
 import "@plasmicapp/react-web/lib/plasmic.css";
 
@@ -84,6 +85,8 @@ export type PlasmicDashboard__OverridesType = {
   header?: Flex__<typeof Header>;
   section?: Flex__<"section">;
   columns?: Flex__<"div">;
+  usersModule?: Flex__<typeof UsersModule>;
+  graphModule?: Flex__<typeof GraphModule>;
 };
 
 export interface DefaultDashboardProps {}
@@ -154,9 +157,11 @@ function PlasmicDashboard__RenderFunc(props: {
             data-plasmic-override={overrides.section}
             className={classNames(projectcss.all, sty.section)}
           >
-            <div
+            <Stack__
+              as={"div"}
               data-plasmic-name={"columns"}
               data-plasmic-override={overrides.columns}
+              hasGap={true}
               className={classNames(projectcss.all, sty.columns)}
             >
               <Stack__
@@ -165,17 +170,9 @@ function PlasmicDashboard__RenderFunc(props: {
                 className={classNames(projectcss.all, sty.column___9CuW8)}
               >
                 <UsersModule
-                  className={classNames(
-                    "__wab_instance",
-                    sty.usersModule__pifW3
-                  )}
-                />
-
-                <UsersModule
-                  className={classNames(
-                    "__wab_instance",
-                    sty.usersModule___0PsNz
-                  )}
+                  data-plasmic-name={"usersModule"}
+                  data-plasmic-override={overrides.usersModule}
+                  className={classNames("__wab_instance", sty.usersModule)}
                 />
               </Stack__>
               <Stack__
@@ -183,21 +180,13 @@ function PlasmicDashboard__RenderFunc(props: {
                 hasGap={true}
                 className={classNames(projectcss.all, sty.column__yzB9H)}
               >
-                <UsersModule
-                  className={classNames(
-                    "__wab_instance",
-                    sty.usersModule__a2Lh
-                  )}
-                />
-
-                <UsersModule
-                  className={classNames(
-                    "__wab_instance",
-                    sty.usersModule__q84Gg
-                  )}
+                <GraphModule
+                  data-plasmic-name={"graphModule"}
+                  data-plasmic-override={overrides.graphModule}
+                  className={classNames("__wab_instance", sty.graphModule)}
                 />
               </Stack__>
-            </div>
+            </Stack__>
           </section>
         </div>
       </div>
@@ -206,10 +195,12 @@ function PlasmicDashboard__RenderFunc(props: {
 }
 
 const PlasmicDescendants = {
-  root: ["root", "header", "section", "columns"],
+  root: ["root", "header", "section", "columns", "usersModule", "graphModule"],
   header: ["header"],
-  section: ["section", "columns"],
-  columns: ["columns"]
+  section: ["section", "columns", "usersModule", "graphModule"],
+  columns: ["columns", "usersModule", "graphModule"],
+  usersModule: ["usersModule"],
+  graphModule: ["graphModule"]
 } as const;
 type NodeNameType = keyof typeof PlasmicDescendants;
 type DescendantsType<T extends NodeNameType> =
@@ -219,6 +210,8 @@ type NodeDefaultElementType = {
   header: typeof Header;
   section: "section";
   columns: "div";
+  usersModule: typeof UsersModule;
+  graphModule: typeof GraphModule;
 };
 
 type ReservedPropsType = "variants" | "args" | "overrides";
@@ -284,6 +277,8 @@ export const PlasmicDashboard = Object.assign(
     header: makeNodeComponent("header"),
     section: makeNodeComponent("section"),
     columns: makeNodeComponent("columns"),
+    usersModule: makeNodeComponent("usersModule"),
+    graphModule: makeNodeComponent("graphModule"),
 
     // Metadata about props expected for PlasmicDashboard
     internalVariantProps: PlasmicDashboard__VariantProps,

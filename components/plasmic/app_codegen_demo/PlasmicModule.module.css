@@ -1,6 +1,7 @@
 .root {
   display: flex;
   position: relative;
+  min-width: 300px;
 }
 .freeBox__rpS5P {
   display: flex;

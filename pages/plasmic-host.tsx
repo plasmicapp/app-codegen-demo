@@ -26,6 +26,7 @@ registerGlobalContext(AppContextProvider, {
   globalActions: {
     login: { parameters: [{ name: "credential", type: "string" }] },
     logout: { parameters: [] },
+    updateUser: { parameters: [{ name: "id", type: "string" }, { name: "data", type: "object" }]},
   },
   importPath: "./src/AppContextProvider",
 });

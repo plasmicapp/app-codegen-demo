@@ -82,6 +82,32 @@
           "componentType": "component"
         },
         {
+          "id": "IBzB1z8_37wm",
+          "name": "Header",
+          "type": "managed",
+          "projectId": "buzXQZLRHRnzx37qjmm2UD",
+          "renderModuleFilePath": "plasmic/app_codegen_demo/PlasmicHeader.tsx",
+          "importSpec": {
+            "modulePath": "Header.tsx"
+          },
+          "cssFilePath": "plasmic/app_codegen_demo/PlasmicHeader.module.css",
+          "scheme": "blackbox",
+          "componentType": "component"
+        },
+        {
+          "id": "SFRojVZndsn7",
+          "name": "GraphModule",
+          "type": "managed",
+          "projectId": "buzXQZLRHRnzx37qjmm2UD",
+          "renderModuleFilePath": "plasmic/app_codegen_demo/PlasmicGraphModule.tsx",
+          "importSpec": {
+            "modulePath": "GraphModule.tsx"
+          },
+          "cssFilePath": "plasmic/app_codegen_demo/PlasmicGraphModule.module.css",
+          "scheme": "blackbox",
+          "componentType": "component"
+        },
+        {
           "id": "dLDSQ4pjpCqV",
           "name": "UserDetail",
           "type": "managed",
@@ -94,19 +120,6 @@
           "scheme": "blackbox",
           "componentType": "page",
           "path": "/user/[id]"
-        },
-        {
-          "id": "IBzB1z8_37wm",
-          "name": "Header",
-          "type": "managed",
-          "projectId": "buzXQZLRHRnzx37qjmm2UD",
-          "renderModuleFilePath": "plasmic/app_codegen_demo/PlasmicHeader.tsx",
-          "importSpec": {
-            "modulePath": "Header.tsx"
-          },
-          "cssFilePath": "plasmic/app_codegen_demo/PlasmicHeader.module.css",
-          "scheme": "blackbox",
-          "componentType": "component"
         }
       ],
       "icons": [],
@@ -128,7 +141,19 @@
           "componentImportPath": "@plasmicapp/react-web/lib/data-sources"
         },
         {
-          "id": "jYQLHRJZHTz5",
+          "id": "5MmRZ4Gc2yLk",
+          "name": "Calendar",
+          "displayName": "Calendar",
+          "componentImportPath": "./src/Calendar"
+        },
+        {
+          "id": "c3LxOmOd0158",
+          "name": "Calendar",
+          "displayName": "Calendar",
+          "componentImportPath": "./src/Calendar"
+        },
+        {
+          "id": "beOzZiBiHQs-",
           "name": "AppContextProvider",
           "displayName": "AppContextProvider",
           "componentImportPath": "./src/AppContextProvider"
@@ -620,6 +645,29 @@
           "name": "Timer",
           "displayName": "hostless-timer",
           "componentImportPath": "@plasmicpkgs/plasmic-basic-components"
+        }
+      ],
+      "customFunctions": [],
+      "jsBundleThemes": []
+    },
+    {
+      "projectId": "kS7YGZfVr6mU43XDQjXELc",
+      "projectApiToken": "ByNEUEKB7Hd9g2PkeOVot8RZTanYGn3rlmcjYTbULlTb9TEjfypxJ4uDH0HeEMQazKWvfHB4CFNXVgy8YmEyA",
+      "projectName": "react-chartjs-2",
+      "version": ">0.0.0",
+      "cssFilePath": "plasmic/react_chartjs_2/plasmic.module.css",
+      "components": [],
+      "icons": [],
+      "images": [],
+      "indirect": true,
+      "globalContextsFilePath": "",
+      "splitsProviderFilePath": "",
+      "codeComponents": [
+        {
+          "id": "0Qywk3bhW-8",
+          "name": "SimpleChart",
+          "displayName": "hostless-react-chartjs-2-simple-chart",
+          "componentImportPath": "@plasmicpkgs/react-chartjs-2"
         }
       ],
       "customFunctions": [],

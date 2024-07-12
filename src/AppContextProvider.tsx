@@ -11,7 +11,7 @@ interface AppContextData {
 interface AppContextActions extends GlobalActionDict {
   login: (credential: string) => void;
   logout: () => void;
-  updateUserNotes: (arg: { id: string, notes?: string }) => void;
+  updateUser: (id: string, data: Partial<User>) => void;
 }
 
 const AppContext = React.createContext<{
@@ -36,14 +36,12 @@ export function AppContextProvider({ children, directusUrl = "https://plasmic-te
   const [currentUser, setCurrentUser] = useState<User | undefined>(initialCurrentUser);
 
   const users = useSWR<{ data: User[] }>(`${directusUrl}/items/User`);
-  const updateUserNotes = useSWRMutation(`${directusUrl}/items/User`,
-    (url, { arg }: { arg: { id: string, notes?: string } }) =>
+  const updateUser = useSWRMutation(`${directusUrl}/items/User`,
+    (url, { arg }: { arg: { id: string, data: Partial<User> } }) =>
       fetch(`${url}/${arg.id}`, {
         method: 'PATCH',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          notes: arg.notes,
-        })
+        body: JSON.stringify(arg.data),
       })
         .then(resp => resp.json())
         .catch(console.error)
@@ -64,12 +62,15 @@ export function AppContextProvider({ children, directusUrl = "https://plasmic-te
       console.log("logout");
       setCurrentUser(undefined);
     },
-    updateUserNotes: updateUserNotes.trigger,
-  }), [users.data, updateUserNotes.trigger]);
+    updateUser: (id, data) => {
+      console.log("updateUser", id, data);
+      updateUser.trigger({ id, data })
+    },
+  }), [users.data, updateUser.trigger]);
 
   return (
     <AppContext.Provider value={{ data, actions }}>
-      <GlobalActionsProvider contextName="AppContext" actions={actions}>
+      <GlobalActionsProvider contextName="AppContextProvider" actions={actions}>
         <DataProvider name="app" data={data}>
           {children}
         </DataProvider>
