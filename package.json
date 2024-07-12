@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "plasmic:sync": "plasmic sync",
+    "plasmic:watch": "plasmic watch"
   },
   "dependencies": {
     "@plasmicapp/cli": "^0.1.330",
