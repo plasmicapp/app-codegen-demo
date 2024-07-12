@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { PlasmicCanvasHost, registerGlobalContext } from '@plasmicapp/react-web/lib/host';
+import {PlasmicCanvasHost, registerComponent, registerGlobalContext} from '@plasmicapp/react-web/lib/host';
 import {AppContextProvider} from "@/src/AppContextProvider";
+import {Calendar} from "@/src/Calendar";
 
 export default function PlasmicHost() {
   return <PlasmicCanvasHost />;
@@ -27,4 +28,32 @@ registerGlobalContext(AppContextProvider, {
     logout: { parameters: [] },
   },
   importPath: "./src/AppContextProvider",
+});
+
+registerComponent(Calendar,{
+  name: "Calendar",
+  props: {
+    value: {
+      type: "dateString",
+      defaultValue: "2024-01-01",
+    },
+    onChange: {
+      type: "eventHandler",
+      argTypes: [
+        {
+          name: "event",
+          type: "object",
+        },
+      ],
+    },
+  },
+  states: {
+    value: {
+      type: "writable",
+      variableType: "dateString",
+      onChangeProp: "onChange",
+      valueProp: "value",
+    },
+  },
+  importPath: "./src/Calendar",
 });
