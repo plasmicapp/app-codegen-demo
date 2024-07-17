@@ -10,16 +10,11 @@ const fetcher = (url:string, opts: RequestInit) => fetch(url, opts).then((res) =
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig value={{ fetcher }}>
-      <PlasmicRootProvider
-        Head={Head}
-        globalContextsProps={{
-          app: {
-            directusUrl: "https://plasmic-test.directus.app",
-            initialCurrentUser: undefined,
-          }
-        }}
-      >
-        <GlobalContextsProvider>
+      <PlasmicRootProvider Head={Head}>
+        <GlobalContextsProvider appContextProviderProps={{
+          directusUrl: "https://plasmic-test.directus.app",
+          initialCurrentUser: undefined,
+        }}>
           <Component {...pageProps} />
         </GlobalContextsProvider>
       </PlasmicRootProvider>
